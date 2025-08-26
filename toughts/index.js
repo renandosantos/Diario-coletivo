@@ -10,7 +10,8 @@ const port = 5000
 
 // 2. IMPORTAÇÃO DOS MÓDULOS MVC
 // (Models e Rotas)
-
+const Tought = require('./models/Tought')
+const User = require('./models/User')
 
 // 3. CONFIGURAÇÕES DO APP
 // (Inicialização do App, formulários, pasta 'public' e View Engine)
@@ -18,8 +19,8 @@ const app = express()
 app.use(express.static('public'))
 
 //template engine
-app.engine =('handlebars', engine())
-app.set('viewengine', 'handlebars')
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
 
 //receber resposta
 app.use(
@@ -66,6 +67,7 @@ app.use((req, res, next) => {
 // 5. SERVIDOR
 // (Conecta ao banco e liga o site)
 conn
+//.sync({force: true})
 .sync()
 .then(() => {
     app.listen(5000)
