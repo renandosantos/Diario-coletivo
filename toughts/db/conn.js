@@ -9,7 +9,7 @@ const sequelize = new Sequelize('toughts', 'root', senha, {
 
 try{
     sequelize.authenticate()
-    console.log('conectamos com sucesso')
+    console.log('conectado com sucesso')
 } catch(err) {
     console.log(`Não foi possivel conectar: ${err}`)
 }
