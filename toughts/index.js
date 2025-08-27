@@ -9,11 +9,15 @@ const conn = require('./db/conn')
 const port = 5000
 
 // 2. IMPORTAÇÃO DOS MÓDULOS MVC
-// (Models e Rotas)
+// (Models, Rotas e Controller)
+//models
 const Tought = require('./models/Tought')
 const User = require('./models/User')
-
+//routes
 const toughtsRoutes = require('./routes/ToughtsRoutes')
+const authRoutes = require('./routes/authRoutes')
+
+//controller
 const ToughtController = require('./controller/ToughtsController')
 
 // 3. CONFIGURAÇÕES DO APP
@@ -65,8 +69,17 @@ app.use((req, res, next) => {
 
 // 4. ROTAS
 // (O App "usa" as rotas importadas aqui)
+
+//app.use
 app.use('/toughts', toughtsRoutes)
+app.use('/', authRoutes)
+
+//app.get
 app.get('/', ToughtController.showToughts)
+
+//app.post
+
+
 
 // 5. SERVIDOR
 // (Conecta ao banco e liga o site)
