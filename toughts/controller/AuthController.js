@@ -14,15 +14,42 @@ module.exports = class AuthController {
 
     static async registerPost(req, res) {
 
-        const { name, email, password, confirmpasword } = req.body
+        const { name, email, password, confirmpassword } = req.body
 
         //password match validation
-        if(password != confirmpasword) {
+        if(password != confirmpassword) {
             req.flash('message', 'As senhas não conferem, tente novamente!')
             res.render('auth/register')
 
             return
         }
+    //check if user exists
+    const checkIfUserExists = await User.findOne({where: {email: email } })
 
+        if(checkIfUserExists) {
+            req.flash('message', 'Email já cadastrado!')
+            res.render('auth/register')
+
+            return
+        }
+
+        //create password
+        const salt = bcrypt.genSaltSync(10)
+        const hashedPassword = bcrypt.hashSync(password, salt)
+
+        const user = {
+            name,
+            email,
+            password: hashedPassword
+        }
+        try {
+            await User.create(user)
+
+            req.flash('message', 'Cadastro realizado com sucesso')
+            res.redirect('/')
+        } catch (err) {
+            console.log(err)
+        }
+        
     }
 }
