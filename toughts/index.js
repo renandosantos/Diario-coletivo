@@ -13,6 +13,9 @@ const port = 5000
 const Tought = require('./models/Tought')
 const User = require('./models/User')
 
+const toughtsRoutes = require('./routes/ToughtsRoutes')
+const ToughtController = require('./controller/ToughtsController')
+
 // 3. CONFIGURAÇÕES DO APP
 // (Inicialização do App, formulários, pasta 'public' e View Engine)
 const app = express()
@@ -62,7 +65,8 @@ app.use((req, res, next) => {
 
 // 4. ROTAS
 // (O App "usa" as rotas importadas aqui)
-
+app.use('/toughts', toughtsRoutes)
+app.get('/', ToughtController.showToughts)
 
 // 5. SERVIDOR
 // (Conecta ao banco e liga o site)
