@@ -29,7 +29,6 @@ module.exports = class AuthController {
         if(checkIfUserExists) {
             req.flash('message', 'Email já cadastrado!')
             res.render('auth/register')
-
             return
         }
 
@@ -43,9 +42,16 @@ module.exports = class AuthController {
             password: hashedPassword
         }
         try {
-            await User.create(user)
+            const createUser = await User.create(user)
+
+            //initialize session
+            req.session.userid = createUser.id
 
             req.flash('message', 'Cadastro realizado com sucesso')
+
+            req.session.save(() => {
+                res.redirect('/')
+            })
             res.redirect('/')
         } catch (err) {
             console.log(err)
